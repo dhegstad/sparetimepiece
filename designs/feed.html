@@ -1,0 +1,454 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">INTELLIGENCE | Axion / Chronos</title>
+    <style vid="5">
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg-root: #0A0F1E;
+            --bg-panel: #0E1528;
+            --bg-element: #141C31;
+            
+            --border-dim: #1D263B;
+            --border-mid: #C9A84C;
+            --border-light: #E0C782;
+            
+            --text-primary: #F5F0E8;
+            --text-secondary: #C9A84C;
+            --text-tertiary: #6E7B98;
+            
+            --accent: #C9A84C;
+            --accent-dim: #4A3E1B;
+            --alert: #F44336;
+            --success: #4CAF50;
+
+            --space-xs: 4px;
+            --space-s: 12px;
+            --space-m: 24px;
+            --space-l: 48px;
+            --space-xl: 80px;
+
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-root);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .text-mono { font-family: var(--font-mono); }
+
+        .label {
+            color: var(--text-secondary);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: var(--space-xs);
+            display: block;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+            border-left: 1px solid var(--border-dim);
+            border-right: 1px solid var(--border-dim);
+            background: var(--bg-root);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--space-m);
+            height: 60px;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .logo {
+            font-size: 16px;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-m);
+        }
+
+        .nav-item {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent);
+        }
+
+        
+        .intel-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr 320px;
+            min-height: calc(100vh - 120px);
+        }
+
+        .intel-column {
+            border-right: 1px solid var(--border-dim);
+            overflow-y: auto;
+        }
+
+        .intel-column:last-child {
+            border-right: none;
+        }
+
+        .section-header {
+            padding: var(--space-m);
+            border-bottom: 1px solid var(--border-dim);
+            background: rgba(20, 28, 49, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        
+        .card {
+            padding: var(--space-m);
+            border-bottom: 1px solid var(--border-dim);
+            transition: background 0.2s;
+        }
+
+        .card:hover {
+            background: var(--bg-element);
+        }
+
+        .alert-card {
+            border-left: 3px solid var(--alert);
+            background: rgba(244, 67, 54, 0.05);
+        }
+
+        .signal-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        
+        .terminal-view {
+            padding: var(--space-l);
+            background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-root) 100%);
+        }
+
+        .report-header {
+            border-bottom: 1px solid var(--border-mid);
+            padding-bottom: var(--space-m);
+            margin-bottom: var(--space-m);
+        }
+
+        .report-content {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background: var(--accent);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        
+        .news-item {
+            padding: var(--space-m);
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .news-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            font-size: 9px;
+            border: 1px solid var(--border-dim);
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .news-meta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .filter-chip {
+            padding: 4px 10px;
+            font-size: 9px;
+            border: 1px solid var(--border-dim);
+            color: var(--text-tertiary);
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .filter-chip.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        footer {
+            height: 60px;
+            border-top: 1px solid var(--border-dim);
+            padding: 0 var(--space-m);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-tertiary);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .tag-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .anomaly-value {
+            font-family: var(--font-mono);
+            color: var(--alert);
+            font-size: 18px;
+        }
+
+        .terminal-block {
+            background: #05070A;
+            border: 1px solid var(--border-dim);
+            padding: var(--space-m);
+            margin: var(--space-m) 0;
+            position: relative;
+        }
+
+        .terminal-block::before {
+            content: "SYSTEM_OUTPUT";
+            position: absolute;
+            top: -8px;
+            left: 12px;
+            background: var(--bg-root);
+            padding: 0 6px;
+            font-size: 9px;
+            color: var(--accent);
+            font-family: var(--font-mono);
+        }
+    </style>
+</head>
+<body vid="6">
+
+    <div class="container" vid="7">
+        <nav vid="8">
+            <div class="logo" vid="9">AXION / CHRONOS</div>
+            <div class="nav-links" vid="10">
+                <a href="#" class="nav-item" vid="11">Dashboard</a>
+                <a href="#" class="nav-item" vid="12">Indices</a>
+                <a href="#" class="nav-item active" vid="13">Intelligence</a>
+                <a href="#" class="nav-item" vid="14">Account</a>
+            </div>
+            <div class="text-mono" style="font-size: 11px; color: var(--text-tertiary)" vid="15">CORE_V.2.4.0_READY</div>
+        </nav>
+
+        <div class="intel-grid" vid="16">
+            
+            <div class="intel-column" vid="17">
+                <div class="section-header" vid="18">
+                    <span class="section-title" vid="19">Market Signals</span>
+                    <span class="label" style="margin-bottom:0" vid="20">LIVE</span>
+                </div>
+
+                
+                <div class="card alert-card" vid="21">
+                    <div class="signal-indicator" vid="22">
+                        <div class="dot" style="background: var(--alert)" vid="23"></div>
+                        <span class="label" style="color: var(--alert); margin-bottom:0" vid="24">Critical Anomaly</span>
+                    </div>
+                    <div class="news-title" vid="25">Patek Philippe 5711/1A-010</div>
+                    <div class="anomaly-value" vid="26">+14.2% Spike</div>
+                    <div class="label" style="margin-top:8px" vid="27">Detected: 14:02 UTC • Secondary Market</div>
+                </div>
+
+                
+                <div class="card" vid="28">
+                    <div class="signal-indicator" vid="29">
+                        <div class="dot" style="background: var(--success)" vid="30"></div>
+                        <span class="label" style="color: var(--success); margin-bottom:0" vid="31">Momentum High</span>
+                    </div>
+                    <div class="news-title" vid="32">Cartier Santos Large</div>
+                    <div class="text-mono" style="font-size:12px; color:var(--text-primary)" vid="33">Consistent Volume Increase (7d)</div>
+                    <div class="label" style="margin-top:8px" vid="34">Trend Confidence: 92%</div>
+                </div>
+
+                
+                <div class="card" vid="35">
+                    <div class="signal-indicator" vid="36">
+                        <div class="dot" style="background: var(--accent)" vid="37"></div>
+                        <span class="label" style="color: var(--accent); margin-bottom:0" vid="38">Supply Constraint</span>
+                    </div>
+                    <div class="news-title" vid="39">Audemars Piguet 26240ST</div>
+                    <div class="text-mono" style="font-size:12px; color:var(--text-primary)" vid="40">Inventory delisting spike observed</div>
+                    <div class="label" style="margin-top:8px" vid="41">Detected across 4 major platforms</div>
+                </div>
+
+                <div class="card" vid="42">
+                    <div class="signal-indicator" vid="43">
+                        <div class="dot" style="background: var(--text-tertiary)" vid="44"></div>
+                        <span class="label" style="color: var(--text-tertiary); margin-bottom:0" vid="45">Volatility Warning</span>
+                    </div>
+                    <div class="news-title" vid="46">Rolex GMT-Master II 126710BLRO</div>
+                    <div class="text-mono" style="font-size:12px; color:var(--text-primary)" vid="47">Bid-Ask spread widening (+4%)</div>
+                    <div class="label" style="margin-top:8px" vid="48">Manual Review Recommended</div>
+                </div>
+            </div>
+
+            
+            <div class="intel-column terminal-view" vid="49">
+                <div class="report-header" vid="50">
+                    <span class="label" vid="51">Report ID: AX-9902-INT</span>
+                    <h2 class="text-mono" style="font-size: 24px; color: var(--accent)" vid="52">AI MARKET SENTIMENT ANALYSIS</h2>
+                    <div class="label" style="margin-top:4px" vid="53">Generated: Oct 24, 2024 | 14:30:11</div>
+                </div>
+
+                <div class="report-content" vid="54">
+                    <p vid="55">&gt; INITIALIZING NEURAL HEURISTICS... [DONE]</p>
+                    <p vid="56">&gt; SCANNING GLOBAL AUCTION DATABASE... [342 NEW ENTRIES]</p>
+                    <p vid="57">&gt; ANALYZING SECONDARY MARKET FLUIDITY...</p>
+                    
+                    <div class="terminal-block" vid="58">
+                        Executive Summary: The Q4 transition shows a significant pivot toward "Neo-Vintage" assets. While modern Rolex production models remain stable, high-complication Patek Philippe references are showing atypical resistance to price consolidation.
+                        <br vid="59"><br vid="60">
+                        Primary Catalyst: Recent Phillips Auction results in Geneva have recalibrated the baseline for 1990s chronographs (+8.4% above median estimate).
+                    </div>
+
+                    <p vid="61">&gt; PREDICTIVE MODELING FOR NOV 2024:</p>
+                    <ul style="list-style: none; padding-left: 12px; margin-top: 8px;" vid="62">
+                        <li vid="63">-- VACHERON OVERSEAS: EXPECTED NEUTRAL (±0.5%)</li>
+                        <li vid="64">-- OMEGA SPEEDMASTER (321): EXPECTED BULLISH (+3.2%)</li>
+                        <li vid="65">-- IWC PILOT SERIES: EXPECTED VOLATILE</li>
+                    </ul>
+
+                    <p style="margin-top: 24px;" vid="66">&gt; SYSTEM STANDBY. MONITORING ACTIVE FEEDS<span class="cursor" vid="67"></span></p>
+                    
+                    <button class="cta-button" style="border: 1px solid var(--accent); background: transparent; color: var(--accent); padding: 8px 16px; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; cursor: pointer; margin-top: 40px;" vid="68">
+                        Export Full Intelligence Briefing (.PDF)
+                    </button>
+                </div>
+            </div>
+
+            
+            <div class="intel-column" vid="69">
+                <div class="section-header" vid="70">
+                    <span class="section-title" vid="71">Global Activity Feed</span>
+                </div>
+                
+                <div style="padding: 12px; border-bottom: 1px solid var(--border-dim); display: flex; gap: 8px; flex-wrap: wrap;" vid="72">
+                    <div class="filter-chip active" vid="73">All</div>
+                    <div class="filter-chip" vid="74">Auctions</div>
+                    <div class="filter-chip" vid="75">Private Sales</div>
+                    <div class="filter-chip" vid="76">Listings</div>
+                </div>
+
+                <div class="news-item" vid="77">
+                    <span class="news-tag" vid="78">Auction Result</span>
+                    <div class="news-title" vid="79">Rolex "Paul Newman" 6239</div>
+                    <div class="news-meta" vid="80">SOLD: € 242,500 [SOTHEBY'S]</div>
+                    <div class="label" style="margin-top: 4px;" vid="81">22 MINS AGO</div>
+                </div>
+
+                <div class="news-item" vid="82">
+                    <span class="news-tag" vid="83">Secondary Market</span>
+                    <div class="news-title" vid="84">F.P. Journe Elegante 48mm</div>
+                    <div class="news-meta" vid="85">LISTED: € 41,200 [CHRONO24]</div>
+                    <div class="label" style="margin-top: 4px;" vid="86">1 HOUR AGO</div>
+                </div>
+
+                <div class="news-item" vid="87">
+                    <span class="news-tag" vid="88">Market News</span>
+                    <div class="news-title" vid="89">Swatch Group Q3 Earnings Report</div>
+                    <div class="news-meta" vid="90">Impact: Neutral-Bullish</div>
+                    <div class="label" style="margin-top: 4px;" vid="91">3 HOURS AGO</div>
+                </div>
+
+                <div class="news-item" vid="92">
+                    <span class="news-tag" vid="93">Auction Result</span>
+                    <div class="news-title" vid="94">Cartier Crash (London)</div>
+                    <div class="news-meta" vid="95">SOLD: £ 185,000 [BONHAMS]</div>
+                    <div class="label" style="margin-top: 4px;" vid="96">5 HOURS AGO</div>
+                </div>
+
+                <div class="news-item" vid="97">
+                    <span class="news-tag" vid="98">Listing Alert</span>
+                    <div class="news-title" vid="99">Audemars Piguet 15202ST</div>
+                    <div class="news-meta" vid="100">PRICE DROP: -5% [BOB'S WATCHES]</div>
+                    <div class="label" style="margin-top: 4px;" vid="101">8 HOURS AGO</div>
+                </div>
+            </div>
+        </div>
+
+        <footer vid="102">
+            <div vid="103">© 2024 Axion Analytics Group | INTEL_TERM_09</div>
+            <div class="text-mono" vid="104" style="font-size: 10px;">
+                LATENCY: 14ms | ENCRYPTION: AES-256
+            </div>
+            <div vid="105">
+                <span style="margin-right: 20px;" vid="106">System Log</span>
+                <span vid="107">Support</span>
+            </div>
+        </footer>
+    </div>
+
+</body></html>

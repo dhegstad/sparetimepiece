@@ -1,0 +1,458 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">AXION / CHRONOS | ROLEX DAYTONA 116500LN</title>
+    <style vid="5">
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg-root: #0A0F1E;
+            --bg-panel: #0E1528;
+            --bg-element: #141C31;
+            
+            --border-dim: #1D263B;
+            --border-mid: #C9A84C;
+            --border-light: #E0C782;
+            
+            --text-primary: #F5F0E8;
+            --text-secondary: #C9A84C;
+            --text-tertiary: #6E7B98;
+            
+            --accent: #C9A84C;
+            --accent-dim: #4A3E1B;
+            --success: #4CAF50;
+            --error: #F44336;
+
+            --space-xs: 4px;
+            --space-s: 12px;
+            --space-m: 24px;
+            --space-l: 48px;
+            --space-xl: 80px;
+
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-root);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .text-mono {
+            font-family: var(--font-mono);
+        }
+
+        .label {
+            color: var(--text-secondary);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-xs);
+            display: block;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+            border-left: 1px solid var(--border-dim);
+            border-right: 1px solid var(--border-dim);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--space-m);
+            height: 60px;
+            border-bottom: 1px solid var(--border-dim);
+            background: var(--bg-root);
+        }
+
+        .logo {
+            font-size: 16px;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-m);
+        }
+
+        .nav-item {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent);
+        }
+
+        .asset-header {
+            padding: var(--space-l) var(--space-m);
+            border-bottom: 1px solid var(--border-dim);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: flex-end;
+        }
+
+        .asset-title h1 {
+            font-size: 42px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .asset-meta {
+            display: flex;
+            gap: var(--space-m);
+            color: var(--text-tertiary);
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .main-content {
+            border-right: 1px solid var(--border-dim);
+        }
+
+        .cell {
+            padding: var(--space-m);
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .cell:last-child {
+            border-bottom: none;
+        }
+
+        
+        .chart-container {
+            height: 400px;
+            width: 100%;
+            background-image: 
+                linear-gradient(var(--border-dim) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+            background-size: 50px 50px;
+            position: relative;
+            margin: var(--space-m) 0;
+            border: 1px solid var(--border-dim);
+            overflow: hidden;
+        }
+
+        .price-line {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            border-top: 2px solid var(--accent);
+            clip-path: polygon(0% 80%, 10% 85%, 20% 70%, 30% 75%, 40% 50%, 50% 55%, 60% 30%, 70% 35%, 80% 15%, 90% 20%, 100% 5%, 100% 100%, 0% 100%);
+            background: linear-gradient(to bottom, rgba(201, 168, 76, 0.15), transparent);
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            top: 20%;
+            left: 65%;
+            background: var(--bg-panel);
+            border: 1px solid var(--accent);
+            padding: 12px;
+            z-index: 10;
+        }
+
+        
+        .spread-bar {
+            height: 8px;
+            background: var(--bg-element);
+            display: flex;
+            margin: 16px 0;
+        }
+
+        .spread-bid { width: 48%; background: var(--success); opacity: 0.6; }
+        .spread-gap { width: 4%; background: transparent; }
+        .spread-ask { width: 48%; background: var(--error); opacity: 0.6; }
+
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 11px;
+        }
+
+        .data-table th {
+            text-align: left;
+            color: var(--text-tertiary);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-dim);
+            font-weight: 400;
+        }
+
+        .data-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-dim);
+            color: var(--text-primary);
+        }
+
+        
+        .action-panel {
+            position: sticky;
+            top: 0;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            text-align: center;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            cursor: pointer;
+            margin-bottom: var(--space-s);
+            transition: all 0.2s;
+            border: 1px solid var(--border-mid);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-root);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .grade-badge {
+            background: var(--bg-element);
+            border: 1px solid var(--border-dim);
+            padding: 4px 8px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--accent);
+        }
+
+        footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-dim);
+            padding: var(--space-m);
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-tertiary);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body vid="6">
+
+    <div class="container" vid="7">
+        <nav vid="8">
+            <a href="#" class="logo" vid="9">AXION / CHRONOS</a>
+            <div class="nav-links" vid="10">
+                <a href="#" class="nav-item" vid="11">Dashboard</a>
+                <a href="#" class="nav-item active" vid="12">Indices</a>
+                <a href="#" class="nav-item" vid="13">Intelligence</a>
+                <a href="#" class="nav-item" vid="14">Account</a>
+            </div>
+            <div class="text-mono" style="font-size: 11px; color: var(--text-tertiary)" vid="15">SYS: ONLINE</div>
+        </nav>
+
+        <header class="asset-header" vid="16">
+            <div class="asset-title" vid="17">
+                <span class="label" vid="18">REFERENCE: 116500LN-0001</span>
+                <h1 vid="19">Cosmograph Daytona</h1>
+                <div class="asset-meta" vid="20">
+                    <span vid="21">BRAND: ROLEX</span>
+                    <span vid="22">MATERIAL: OYSTERSTEEL</span>
+                    <span vid="23">DIAL: WHITE "PANDA"</span>
+                </div>
+            </div>
+            <div style="text-align: right;" vid="24">
+                <span class="label" vid="25">Market Price</span>
+                <div class="text-mono" style="font-size: 32px; color: var(--text-primary)" vid="26">€ 28,450.00</div>
+                <span class="label" style="color: var(--success);" vid="27">▲ 1.2% (24H)</span>
+            </div>
+        </header>
+
+        <div class="grid-layout" vid="28">
+            <div class="main-content" vid="29">
+                <div class="cell" vid="30">
+                    <div style="display: flex; justify-content: space-between; align-items: center;" vid="31">
+                        <span class="label" vid="32">Historical Performance / 5Y</span>
+                        <div class="nav-links" vid="33">
+                            <span class="nav-item" style="font-size: 10px;" vid="34">1M</span>
+                            <span class="nav-item" style="font-size: 10px;" vid="35">6M</span>
+                            <span class="nav-item active" style="font-size: 10px;" vid="36">1Y</span>
+                            <span class="nav-item" style="font-size: 10px;" vid="37">5Y</span>
+                        </div>
+                    </div>
+                    <div class="chart-container" vid="38">
+                        <div class="chart-tooltip" vid="39">
+                            <span class="label" vid="40">OCT 24, 2023</span>
+                            <div class="text-mono" vid="41">€ 28,450.00</div>
+                        </div>
+                        <div class="price-line" vid="42"></div>
+                    </div>
+                </div>
+
+                <div class="cell" vid="43">
+                    <span class="label" vid="44">Historical Sale Records</span>
+                    <table class="data-table" vid="45">
+                        <thead vid="46">
+                            <tr vid="47">
+                                <th vid="48">DATE</th>
+                                <th vid="49">SOURCE</th>
+                                <th vid="50">CONDITION</th>
+                                <th vid="51">LOCATION</th>
+                                <th vid="52">PRICE</th>
+                            </tr>
+                        </thead>
+                        <tbody vid="53">
+                            <tr vid="54">
+                                <td vid="55">22 MAY 2024</td>
+                                <td vid="56">PHILLIPS (GENEVA)</td>
+                                <td vid="57"><span class="grade-badge" vid="58">NOS</span></td>
+                                <td vid="59">CH</td>
+                                <td class="text-mono" vid="60">€ 31,200</td>
+                            </tr>
+                            <tr vid="61">
+                                <td vid="62">14 APR 2024</td>
+                                <td vid="63">CHRONO24 (DEALER)</td>
+                                <td vid="64"><span class="grade-badge" vid="65">EXC</span></td>
+                                <td vid="66">UK</td>
+                                <td class="text-mono" vid="67">€ 27,900</td>
+                            </tr>
+                            <tr vid="68">
+                                <td vid="69">02 FEB 2024</td>
+                                <td vid="70">PRIVATE SALE</td>
+                                <td vid="71"><span class="grade-badge" vid="72">GGD</span></td>
+                                <td vid="73">US</td>
+                                <td class="text-mono" vid="74">€ 26,400</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cell" vid="75">
+                    <span class="label" vid="76">Provenance Data &amp; Verification</span>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-m); margin-top: var(--space-s);" vid="77">
+                        <div vid="78">
+                            <p style="font-size: 11px; color: var(--text-tertiary); line-height: 1.6;" vid="79">
+                                Verified by Axion / Chronos AI image analysis and serial matching. This specific reference has a 94.2% authentication confidence score based on bezel font metrics and sub-dial spacing.
+                            </p>
+                        </div>
+                        <div class="text-mono" style="font-size: 11px;" vid="80">
+                            <div style="margin-bottom: 8px;" vid="81"><span style="color: var(--accent)" vid="82">SERIES:</span> RANDOM</div>
+                            <div style="margin-bottom: 8px;" vid="83"><span style="color: var(--accent)" vid="84">CALIBER:</span> 4130</div>
+                            <div vid="85"><span style="color: var(--accent)" vid="86">PAPER:</span> ORIGINAL CARD INCL.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="action-panel" vid="87">
+                <div class="cell" vid="88">
+                    <span class="label" vid="89">Order Book Spread</span>
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px;" vid="90">
+                        <div vid="91">
+                            <span class="label" style="margin-bottom: 2px;" vid="92">BEST BID</span>
+                            <div class="text-mono" style="color: var(--success)" vid="93">€ 27,850</div>
+                        </div>
+                        <div style="text-align: right;" vid="94">
+                            <span class="label" style="margin-bottom: 2px;" vid="95">BEST ASK</span>
+                            <div class="text-mono" style="color: var(--error)" vid="96">€ 29,100</div>
+                        </div>
+                    </div>
+                    <div class="spread-bar" vid="97">
+                        <div class="spread-bid" vid="98"></div>
+                        <div class="spread-gap" vid="99"></div>
+                        <div class="spread-ask" vid="100"></div>
+                    </div>
+                    <div style="display: flex; justify-content: center;" vid="101">
+                        <span class="label" vid="102">SPREAD: 4.49%</span>
+                    </div>
+                </div>
+
+                <div class="cell" vid="103">
+                    <span class="label" vid="104">Trade Execution</span>
+                    <div style="margin-top: var(--space-s);" vid="105">
+                        <button class="btn btn-primary" vid="106">Instant Purchase</button>
+                        <button class="btn btn-outline" vid="107">Place Limit Order</button>
+                        <button class="btn btn-outline" style="border-color: var(--border-dim); color: var(--text-tertiary)" vid="108">Add to Watchlist</button>
+                    </div>
+                </div>
+
+                <div class="cell" vid="109">
+                    <span class="label" vid="110">Condition Grading Metrics</span>
+                    <div style="margin-top: var(--space-s);" vid="111">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;" vid="112">
+                            <span class="text-mono" style="font-size: 11px;" vid="113">Mint / NOS</span>
+                            <span class="text-mono" style="font-size: 11px; color: var(--accent)" vid="114">€ 34,200</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;" vid="115">
+                            <span class="text-mono" style="font-size: 11px;" vid="116">Excellent</span>
+                            <span class="text-mono" style="font-size: 11px; color: var(--accent)" vid="117">€ 28,450</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;" vid="118">
+                            <span class="text-mono" style="font-size: 11px;" vid="119">Good</span>
+                            <span class="text-mono" style="font-size: 11px; color: var(--accent)" vid="120">€ 25,100</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cell" style="background: rgba(201, 168, 76, 0.03);" vid="121">
+                    <span class="label" vid="122">System Insight</span>
+                    <p style="font-size: 11px; color: var(--text-primary); margin-top: 8px;" vid="123">
+                        Demand for Reference 116500LN remains high as secondary market supply has contracted by 12% over the last 30 days.
+                    </p>
+                </div>
+            </aside>
+        </div>
+
+        <footer vid="124">
+            <div vid="125">© 2024 Axion Analytics Group / Terminal V2.4</div>
+            <div vid="126">
+                <span style="margin-right: 20px;" vid="127">Market Data Delay: 0.2ms</span>
+                <span vid="128">Ref: 0x88F2A...</span>
+            </div>
+        </footer>
+    </div>
+
+</body></html>
