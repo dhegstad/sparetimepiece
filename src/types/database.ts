@@ -12,6 +12,7 @@ export interface Database {
           description: string | null
           country: string
           founded_year: number | null
+          website_url: string | null
           created_at: string
           updated_at: string
         }
@@ -23,6 +24,7 @@ export interface Database {
           description?: string | null
           country?: string
           founded_year?: number | null
+          website_url?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -34,6 +36,7 @@ export interface Database {
           description?: string | null
           country?: string
           founded_year?: number | null
+          website_url?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -44,6 +47,7 @@ export interface Database {
           brand_id: string
           reference_number: string
           model_name: string
+          nickname: string | null
           collection: string | null
           case_material: string | null
           case_diameter_mm: number | null
@@ -56,6 +60,7 @@ export interface Database {
           current_market_price_usd: number | null
           price_trend_30d: number | null
           image_url: string | null
+          brand_page_url: string | null
           view_count: number
           created_at: string
           updated_at: string
@@ -65,6 +70,7 @@ export interface Database {
           brand_id: string
           reference_number: string
           model_name: string
+          nickname?: string | null
           collection?: string | null
           case_material?: string | null
           case_diameter_mm?: number | null
@@ -77,11 +83,13 @@ export interface Database {
           current_market_price_usd?: number | null
           price_trend_30d?: number | null
           image_url?: string | null
+          brand_page_url?: string | null
         }
         Update: {
           brand_id?: string
           reference_number?: string
           model_name?: string
+          nickname?: string | null
           collection?: string | null
           case_material?: string | null
           case_diameter_mm?: number | null
@@ -94,6 +102,7 @@ export interface Database {
           current_market_price_usd?: number | null
           price_trend_30d?: number | null
           image_url?: string | null
+          brand_page_url?: string | null
         }
         Relationships: [
           {
@@ -491,6 +500,41 @@ export interface Database {
         }
         Relationships: []
       }
+      watch_market_links: {
+        Row: {
+          id: string
+          watch_id: string
+          source: string
+          source_display_name: string
+          url: string
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          watch_id: string
+          source: string
+          source_display_name: string
+          url: string
+          is_active?: boolean
+        }
+        Update: {
+          source?: string
+          source_display_name?: string
+          url?: string
+          is_active?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "watch_market_links_watch_id_fkey"
+            columns: ["watch_id"]
+            isOneToOne: false
+            referencedRelation: "watches"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -528,6 +572,12 @@ export type WatchlistItem = Database['public']['Tables']['watchlist_items']['Row
 export type Message = Database['public']['Tables']['messages']['Row']
 export type SavedSearch = Database['public']['Tables']['saved_searches']['Row']
 export type ScrapeRun = Database['public']['Tables']['scrape_runs']['Row']
+
+export type WatchMarketLink = Database['public']['Tables']['watch_market_links']['Row']
+
+export type WatchWithLinks = WatchWithBrand & {
+  watch_market_links: WatchMarketLink[]
+}
 
 export type ListingWithDetails = Listing & {
   profiles: Profile

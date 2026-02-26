@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { formatPrice, formatTrend } from '@/lib/utils'
 import type { WatchWithBrand } from '@/types/database'
 
@@ -9,9 +10,15 @@ export function WatchCard({ watch }: { watch: WatchWithBrand }) {
   return (
     <Link href={`/watches/${watch.reference_number}`}>
       <div className="border border-[#1D263B] p-5 hover:border-[#C9A84C] hover:bg-[#0E1528] transition-all cursor-pointer group">
-        <div className="aspect-square bg-[#141C31] border border-[#1D263B] mb-4 flex items-center justify-center overflow-hidden">
+        <div className="aspect-square bg-[#141C31] border border-[#1D263B] mb-4 flex items-center justify-center overflow-hidden relative">
           {watch.image_url ? (
-            <img src={watch.image_url} alt={watch.model_name} className="object-cover w-full h-full" />
+            <Image
+              src={watch.image_url}
+              alt={`${watch.brands?.name} ${watch.model_name}`}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className="object-cover"
+            />
           ) : (
             <div className="text-center p-4">
               <div className="font-mono text-lg text-[#C9A84C]">{watch.brands?.name?.[0]}</div>

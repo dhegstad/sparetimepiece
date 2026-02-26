@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getWatchByRef, getPriceHistory } from '@/lib/queries/watches'
+import { getWatchByRef, getPriceHistory, getWatchMarketLinks } from '@/lib/queries/watches'
 import { formatPrice, formatTrend } from '@/lib/utils'
 import { PriceChartWrapper } from '@/components/watches/price-chart-wrapper'
 import { WatchActions } from '@/components/watches/watch-actions'
@@ -36,7 +36,10 @@ export default async function WatchDetailPage({
   }
   if (!watch) notFound()
 
-  const priceHistory = await getPriceHistory(watch.id)
+  const [priceHistory, marketLinks] = await Promise.all([
+    getPriceHistory(watch.id),
+    getWatchMarketLinks(watch.id),
+  ])
   const trend = watch.price_trend_30d
   const isPositive = trend != null && trend > 0
 
@@ -129,6 +132,46 @@ export default async function WatchDetailPage({
           <div className="p-6 border-b border-[#1D263B]">
             <span className="label-gold mb-4 block">Trade Execution</span>
             <WatchActions watchId={watch.id} watchRef={watch.reference_number} />
+          </div>
+
+          {/* Where to Buy */}
+          <div className="p-6 border-b border-[#1D263B]">
+            <span className="label-gold mb-4 block">Where to Buy</span>
+            <div className="space-y-2">
+              {/* Official brand link */}
+              {watch.brand_page_url && (
+                <a
+                  href={watch.brand_page_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between py-2.5 px-3 border border-[#1D263B] hover:border-[#C9A84C] hover:bg-[#0E1528] transition-all group"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-5 h-5 border border-[#C9A84C] rounded-full flex items-center justify-center text-[#C9A84C] text-[9px] font-bold shrink-0">
+                      {watch.brands?.name?.[0]}
+                    </span>
+                    <span className="font-mono text-[11px] uppercase">{watch.brands?.name} Official</span>
+                  </div>
+                  <span className="text-[#6E7B98] group-hover:text-[#C9A84C] text-xs transition-colors">&#8599;</span>
+                </a>
+              )}
+              {/* Market links */}
+              {marketLinks.map((link) => (
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between py-2.5 px-3 border border-[#1D263B] hover:border-[#C9A84C] hover:bg-[#0E1528] transition-all group"
+                >
+                  <span className="font-mono text-[11px] uppercase">{link.source_display_name}</span>
+                  <span className="text-[#6E7B98] group-hover:text-[#C9A84C] text-xs transition-colors">&#8599;</span>
+                </a>
+              ))}
+              {!watch.brand_page_url && marketLinks.length === 0 && (
+                <p className="text-[11px] text-[#6E7B98]">No market links available yet.</p>
+              )}
+            </div>
           </div>
 
           {/* Condition Grading */}

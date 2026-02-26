@@ -20,16 +20,17 @@ export default function HomePage() {
   return (
     <div className="max-w-[1440px] mx-auto border-l border-r border-[#1D263B]">
       {/* Hero */}
-      <div className="border-b border-[#1D263B] px-6 py-20 md:py-24 flex flex-col md:flex-row justify-between items-end gap-8"
+      <div
+        className="border-b border-[#1D263B] px-4 py-12 sm:px-6 sm:py-20 md:py-24 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8"
         style={{ background: 'radial-gradient(circle at top right, #141C31 0%, transparent 40%)' }}
       >
         <div>
-          <span className="label-gold block mb-4">Platform V.2.0</span>
-          <h1 className="text-5xl md:text-7xl font-light uppercase leading-[0.9] tracking-wide">
+          <span className="label-gold block mb-3 md:mb-4">Platform V.2.0</span>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-light uppercase leading-[0.9] tracking-wide">
             Global<br />Watch<br />Index
           </h1>
         </div>
-        <div className="border-l border-[#C9A84C] pl-6 max-w-md">
+        <div className="border-l border-[#C9A84C] pl-4 sm:pl-6 max-w-md w-full md:w-auto">
           <p className="font-mono text-xs uppercase tracking-wider text-foreground">
             Real-time valuation data for investment-grade horology.
           </p>
@@ -38,17 +39,52 @@ export default function HomePage() {
           </p>
           <Link
             href="/watches"
-            className="inline-block mt-6 border border-[#C9A84C] text-[#C9A84C] px-6 py-3 font-mono text-xs uppercase tracking-wider hover:bg-[#C9A84C] hover:text-[#0A0F1E] transition-all"
+            className="inline-block mt-4 sm:mt-6 border border-[#C9A84C] text-[#C9A84C] px-6 py-3 font-mono text-xs uppercase tracking-wider hover:bg-[#C9A84C] hover:text-[#0A0F1E] transition-all"
           >
             Access Terminal
           </Link>
         </div>
       </div>
 
+      {/* Mobile Stats Row — visible only on small screens */}
+      <div className="lg:hidden flex overflow-x-auto snap-x snap-mandatory gap-0 border-b border-[#1D263B] scrollbar-hide">
+        <div className="snap-start shrink-0 w-[45%] min-w-[160px] p-4 border-r border-[#1D263B]">
+          <span className="label-gold">Market Volume (24h)</span>
+          <div className="font-mono text-xl mt-1">$ 42.5M</div>
+          <div className="text-xs text-[#4CAF50] mt-1 uppercase tracking-wider">&#9650; 2.4%</div>
+        </div>
+        <div className="snap-start shrink-0 w-[45%] min-w-[160px] p-4 border-r border-[#1D263B]">
+          <span className="label-gold">Volatility Index</span>
+          <div className="flex gap-[2px] h-5 mt-2">
+            {Array.from({ length: 16 }).map((_, i) => (
+              <div
+                key={i}
+                className={`flex-1 ${i < 8 ? 'bg-[#C9A84C]' : 'bg-[#141C31]'}`}
+              />
+            ))}
+          </div>
+          <div className="flex justify-between mt-1">
+            <span className="label-gold text-[9px]">Low</span>
+            <span className="label-gold text-[9px]">High</span>
+          </div>
+        </div>
+        <div className="snap-start shrink-0 w-[45%] min-w-[160px] p-4">
+          <span className="label-gold">Dominance</span>
+          <div className="grid grid-cols-2 gap-3 mt-2">
+            {dominance.map((d) => (
+              <div key={d.code}>
+                <span className="font-mono text-sm">{d.code}</span>
+                <span className="label-gold block">{d.pct}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Dashboard Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr_350px] border-b border-[#1D263B]">
-        {/* Left sidebar */}
-        <div className="p-6 border-r border-[#1D263B] border-b lg:border-b-0">
+        {/* Left sidebar — hidden on mobile (shown as scroll row above) */}
+        <div className="hidden lg:block p-6 border-r border-[#1D263B]">
           <div className="mb-12">
             <span className="label-gold">Market Volume (24h)</span>
             <div className="font-mono text-2xl mt-1">$ 42.5M</div>
@@ -85,11 +121,11 @@ export default function HomePage() {
         </div>
 
         {/* Center: Composite Index + Chart */}
-        <div className="p-6 border-r border-[#1D263B]">
-          <div className="flex justify-between items-start mb-6">
+        <div className="p-4 sm:p-6 border-b lg:border-b-0 lg:border-r border-[#1D263B]">
+          <div className="flex justify-between items-start mb-4 sm:mb-6">
             <div>
               <span className="label-gold">Composite Index</span>
-              <div className="font-mono text-5xl mt-2">12,845.02</div>
+              <div className="font-mono text-3xl sm:text-5xl mt-2">12,845.02</div>
             </div>
             <div className="w-5 h-5 border border-[#C9A84C] flex items-center justify-center text-[#C9A84C] text-sm">
               &#8599;
@@ -97,10 +133,10 @@ export default function HomePage() {
           </div>
 
           {/* Chart area */}
-          <div className="w-full h-48 relative border border-[#1D263B] overflow-hidden grid-line">
-            <div className="absolute top-4 left-4 bg-[#0E1528] border border-[#C9A84C] px-3 py-2 flex items-center gap-3 z-10">
+          <div className="w-full h-40 sm:h-48 relative border border-[#1D263B] overflow-hidden grid-line">
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#0E1528] border border-[#C9A84C] px-2 py-1.5 sm:px-3 sm:py-2 flex items-center gap-2 sm:gap-3 z-10">
               <div className="w-3 h-3 border-t border-r border-[#C9A84C] rotate-[-45deg]" />
-              <div className="font-mono text-[11px]">
+              <div className="font-mono text-[10px] sm:text-[11px]">
                 <div>ALL-TIME HIGH</div>
                 <div className="text-[#6E7B98]">NOV 2023</div>
               </div>
@@ -116,10 +152,10 @@ export default function HomePage() {
           </div>
 
           {/* Timeframe */}
-          <div className="mt-12">
+          <div className="mt-8 sm:mt-12">
             <div className="flex justify-between mb-3">
               <span className="label-gold">Timeframe</span>
-              <span className="font-mono text-base">1 YEAR</span>
+              <span className="font-mono text-sm sm:text-base">1 YEAR</span>
             </div>
             <div className="relative h-1 bg-[#1D263B]">
               <div className="absolute w-3 h-3 bg-[#C9A84C] rounded-full top-1/2 -translate-y-1/2" style={{ left: '65%' }} />
@@ -132,26 +168,26 @@ export default function HomePage() {
         </div>
 
         {/* Right sidebar: Top Movers */}
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+        <div className="p-4 sm:p-6">
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
             <span className="label-gold">Top Movers</span>
             <Link href="/watches" className="label-gold border-b border-[#C9A84C] pb-[2px] font-mono hover:text-[#E0C782] transition-colors">
               VIEW ALL
             </Link>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-0">
             {trendingWatches.map((watch) => (
               <Link
                 key={watch.ref}
                 href={`/watches/${watch.ref}`}
-                className="flex justify-between items-center py-3 border-b border-[#1D263B] hover:pl-2 hover:pr-2 hover:bg-[#141C31] hover:border-[#C9A84C] transition-all cursor-pointer"
+                className="flex justify-between items-center min-h-[48px] py-3 px-1 sm:px-0 border-b border-[#1D263B] hover:pl-2 hover:pr-2 hover:bg-[#141C31] hover:border-[#C9A84C] transition-all cursor-pointer"
               >
-                <div>
-                  <span className="text-[13px] font-medium uppercase tracking-wide">{watch.model}</span>
+                <div className="min-w-0 flex-1 mr-3">
+                  <span className="text-[13px] font-medium uppercase tracking-wide block truncate">{watch.model}</span>
                   <span className="block text-[10px] text-[#6E7B98] mt-1">{watch.brand}</span>
                 </div>
-                <div className="text-right">
+                <div className="text-right shrink-0">
                   <div className="font-mono text-[13px]">{formatPrice(watch.price)}</div>
                   <div className={`label-gold mt-0.5 ${watch.trend > 0 ? 'text-[#4CAF50]' : watch.trend < 0 ? 'text-[#F44336]' : 'text-[#6E7B98]'}`}>
                     {formatTrend(watch.trend)}
@@ -161,8 +197,8 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* System Status */}
-          <div className="mt-12">
+          {/* System Status — hidden on mobile */}
+          <div className="hidden sm:block mt-12">
             <span className="label-gold">System Status</span>
             <div className="grid grid-cols-2 gap-3 mt-3">
               <div className="bg-[#141C31] border border-[#1D263B] p-3 text-center">

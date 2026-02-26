@@ -20,7 +20,7 @@ export async function getWatches(params?: {
   }
 
   if (params?.search) {
-    query = query.or(`model_name.ilike.%${params.search}%,reference_number.ilike.%${params.search}%`)
+    query = query.or(`model_name.ilike.%${params.search}%,reference_number.ilike.%${params.search}%,nickname.ilike.%${params.search}%`)
   }
 
   if (params?.minPrice) {
@@ -128,6 +128,19 @@ export async function getWatchesByBrand(brandId: string) {
     .select('*, brands(*)')
     .eq('brand_id', brandId)
     .order('current_market_price_usd', { ascending: false })
+
+  if (error) throw error
+  return data ?? []
+}
+
+export async function getWatchMarketLinks(watchId: string) {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('watch_market_links')
+    .select('*')
+    .eq('watch_id', watchId)
+    .eq('is_active', true)
+    .order('source')
 
   if (error) throw error
   return data ?? []
